@@ -1,3 +1,6 @@
 // #actors{
 //     font-size: 0.9em;
 // }
+
+#genre:after, #actor:after  { content:','; }
+#genre:last-child:after, #actor:last-child:after  { content:'.'; }

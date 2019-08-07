@@ -4,14 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
-
-import { DetailsPage } from './details.page';
-import { HeureMinutePipe } from '../../heure-minute.pipe';
+import { ModalPage } from './modal.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: DetailsPage
+    component: ModalPage
   }
 ];
 
@@ -22,6 +20,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DetailsPage, HeureMinutePipe]
+  declarations: [ModalPage],
 })
-export class DetailsPageModule {}
+export class ModalPageModule {}
