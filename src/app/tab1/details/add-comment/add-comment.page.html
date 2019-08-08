@@ -13,7 +13,7 @@
       <ion-list>
         <ion-item>
           <ion-label>Nom</ion-label>
-          <ion-input formControlName="name"></ion-input>
+          <ion-input formControlName="name" placeholder="Votre nom"></ion-input>
           <div *ngIf="commentForm.controls.name.touched==true && commentForm.controls.name.status=='INVALID'">
               <div *ngIf="commentForm.controls.name.errors.required===true">
                   <small class="error">Nom requis</small>
@@ -38,7 +38,7 @@
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Commentaire</ion-label>
-          <ion-textarea formControlName="comment"></ion-textarea>
+          <ion-textarea formControlName="comment" placeholder="votre commentaire"></ion-textarea>
         </ion-item>
       </ion-list>
       <div *ngIf="(commentForm.controls.score.touched==true

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Movie } from 'src/app/models/movie.model';
 import { MoviesService } from 'src/app/movies.service';
@@ -15,7 +15,8 @@ export class AddCommentPage implements OnInit {
   comment = new Comment;
   commentForm:FormGroup;
 
-  constructor(private modalCtrl:ModalController, private formBuilder:FormBuilder, private movieService:MoviesService) { 
+  constructor(private modalCtrl:ModalController, private formBuilder:FormBuilder, 
+    private movieService:MoviesService, private toastController:ToastController) { 
   }
 
   ngOnInit() {
@@ -40,13 +41,22 @@ export class AddCommentPage implements OnInit {
     });
   }
 
-  onSubmit(comment){
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Votre commentaire a été ajouté.',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  onSubmit(comment:FormGroup){
     if(comment.status ==='VALID'){
       console.log(comment);
       // this.comment = comment;
       this.movie.comments.push(comment.value);
       // console.log(this.movie.comments);
       this.movieService.movieSubject.next(this.movie);
+      this.presentToast();
       // console.log(this.movie);
       this.closeModal();
     }
