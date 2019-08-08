@@ -1,6 +1,12 @@
 <ion-header>
-  <ion-searchbar showCancelButton="never" placeholder="film, genre ou acteur" (ionChange)="filterMovies($event)">
-  </ion-searchbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar 
+      mode="ios"
+      showCancelButton="never" 
+      placeholder="film, genre ou acteur" 
+      (ionChange)="filterMovies($event)">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>

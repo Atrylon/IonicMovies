@@ -1,9 +1,16 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>modal</ion-title>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">Retour</ion-button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <iframe id="ytplayer" type="text/html"
+    [src]="sanitizer.bypassSecurityTrustResourceUrl(srctrailer)"
+    width="100%"
+    height="100%"
+    frameborder="0"
+    allowfullscreen></iframe>
 </ion-content>

@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">Retour</ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+    <h1>Votre avis</h1>
+    
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit(commentForm)">
+      <ion-list>
+        <ion-item>
+          <ion-label>Nom</ion-label>
+          <ion-input formControlName="name"></ion-input>
+          <div *ngIf="commentForm.controls.name.touched==true && commentForm.controls.name.status=='INVALID'">
+              <div *ngIf="commentForm.controls.name.errors.required===true">
+                  <small class="error">Nom requis</small>
+              </div>
+              <div *ngIf="commentForm.controls.name.errors.minlength ">
+                  <small class="error">5 caractères minimum</small>
+              </div>
+          </div> 
+        </ion-item>
+        <ion-item>
+          <ion-label>Note</ion-label>
+          <ion-select okText="Ok" cancelText="Fermer" formControlName="score">
+            <ion-select-option value="1">1</ion-select-option>
+            <ion-select-option value="2">2</ion-select-option>
+            <ion-select-option value="3">3</ion-select-option>
+            <ion-select-option value="4">4</ion-select-option>
+            <ion-select-option value="5">5</ion-select-option>
+          </ion-select>
+          <div *ngIf="commentForm.controls.score.touched==true && commentForm.controls.score.status=='INVALID'">
+            <small class="error">Score requis</small>
+          </div>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Commentaire</ion-label>
+          <ion-textarea formControlName="comment"></ion-textarea>
+        </ion-item>
+      </ion-list>
+      <div *ngIf="(commentForm.controls.score.touched==true
+      && commentForm.controls.name.touched==true &&
+      commentForm.controls.comment.touched==true)
+       && commentForm.status==='INVALID'">
+          <small class="error text-center">Formulaire incorrect</small>
+      </div>
+      <ion-button type="submit" expand="full"
+          color="secondary">
+          Publier cet avis
+      </ion-button>
+    </form>
+
+</ion-content>
+  

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesService } from 'src/app/movies.service';
-import { Movie } from 'src/app/models/movie.model';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from './modal/modal.page';
+import { AddCommentPage } from './add-comment/add-comment.page';
 
 @Component({
   selector: 'app-details',
@@ -16,25 +16,35 @@ export class DetailsPage implements OnInit {
   movie;
   info=true;
 
-  constructor(private movieService:MoviesService, private location:Location, public sanitizer: DomSanitizer,
+  constructor(private movieService:MoviesService, private location:Location,
     public modalController:ModalController) { 
   }
 
   ngOnInit() {
     this.movieService.movieSubject.subscribe(
       data => {
-        console.log(data)
+        // console.log(data)
         this.movie=data
       }
     )
   }
 
-  // async showTrailer() {
-  //   const modal = await this.modalController.create({
-  //     component: ModalPage
-  //   });
-  //   return await modal.present();
-  // }
+  async showTrailer() {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      componentProps:{
+        'trailer': this.movie.traileryt
+      }
+    });
+    return await modal.present();
+  }
+
+  async addComment() {
+    const modal = await this.modalController.create({
+      component: AddCommentPage
+    });
+    return await modal.present();
+  }
 
   segmentChanged(ev: any) {
     if(ev.detail.value==="info"){
@@ -48,6 +58,4 @@ export class DetailsPage implements OnInit {
   goBack() {
     this.location.back();
   }
-
-  
 }

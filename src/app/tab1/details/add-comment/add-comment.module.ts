@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DetailsPage } from './details.page';
-import { HeureMinutePipe } from '../../heure-minute.pipe';
-import { ModalPage } from './modal/modal.page';
+import { AddCommentPage } from './add-comment.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: DetailsPage
+    component: AddCommentPage
   }
 ];
 
@@ -21,8 +19,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DetailsPage, HeureMinutePipe],
+  declarations: [AddCommentPage],
 })
-export class DetailsPageModule {}
+export class AddCommentPageModule {}

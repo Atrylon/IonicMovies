@@ -1,99 +1,137 @@
 <ion-app>
-    <ion-header>
-        <ion-toolbar>
-            <ion-back-button text="Retour" (click)="goBack()"></ion-back-button>
-            <ion-segment (ionChange)="segmentChanged($event)" value="info">
-                <ion-segment-button value="info">
-                  <ion-label>Info</ion-label>
-                </ion-segment-button>
-                <ion-segment-button value="avis">
-                  <ion-label>Avis</ion-label>
-                </ion-segment-button>
-              </ion-segment>
-        </ion-toolbar>
-      </ion-header>
+  <ion-header>
+    <ion-toolbar color="primary">
+        <ion-back-button ion="md" id="retour" text="Retour" (click)="goBack()"></ion-back-button>
+        <ion-segment ion="md" (ionChange)="segmentChanged($event)" value="info">
+          <ion-segment-button value="info">
+            <ion-label>Info</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="avis">
+            <ion-label>Avis</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+  </ion-header>
       
-      <ion-content *ngIf="info===true">
-        <ion-card>
-          <ion-card-header>
-            <ion-img [src]= "movie.image"></ion-img>
-            <ion-card-title class="ion-text-center">{{ movie.title }}</ion-card-title>
-          </ion-card-header>
-        
-          <ion-card-content>
+  <ion-content *ngIf="info===true">
+    <ion-card>        
+      <ion-card-content>
+        <ion-img [src]= "movie.image"></ion-img>
+        <ion-card-title class="ion-text-center">{{ movie.title }}</ion-card-title>
+        <ion-button expand="full"
+            shape ="round"
+            color="warning"
+            (click)="showTrailer()">
+            Voir la bande-annonce
+        </ion-button>
+        <div class="row">
+          <div class="row">
+              <b>Sorti en : </b>
+              <i> {{ movie.date|date:'dd/MM/yyyy' }}</i>
+          </div>
+          <div class="row">
+              <b>Durée : </b>
+            <i> {{ movie.duration | HeureMinute }}</i>
+          </div>
+        </div>
+        <div class="row">
+            <b>Genre(s) : </b>
+            <span id="genre" *ngFor="let genre of movie.genre">
+              {{genre}}</span>
+        </div>
+        <p>
+            <b>Synopsis :</b> {{ movie.resume }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card>
+      <ion-card-content>
+        <div class="row">
+            <b>Réalisateur : </b>{{ movie.director }}
+        </div>
+        <div class="row">
+            <b>Acteurs : </b>
+            <span id="actor" *ngFor="let actor of movie.actors">
+              {{actor}}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <!-- <ion-card>
+      <ion-card-content>
+        <b>Trailer : </b>
+          <iframe width="100%" height="315" [src]="movie.traileryt" frameborder="0" allowfullscreen></iframe>
+          <iframe id="ytplayer" type="text/html"
+          [src]="sanitizer.bypassSecurityTrustResourceUrl(movie.traileryt)"
+          width="100%"
+          height="100%"
+          frameborder="0"
+          allowfullscreen></iframe>
+      </ion-card-content>
+    </ion-card> -->
+  </ion-content>
+  
+  <ion-content *ngIf="info===false">
+    <div *ngIf="movie.comments.length > 0">
+      <ion-card>
+        <ion-card-content>
+          <ion-card-title class="ion-text-center">Commentaires</ion-card-title>
+          <ion-list>
+            <ion-item *ngFor="let comment of movie.comments">
+              <ion-thumbnail slot="start">
+                <ion-img src="https://uybor.uz/borless/avtobor/img/user-images/no-avatar.png">
+                </ion-img>
+              </ion-thumbnail>
+              <ion-label text-wrap>
+                <ion-text>
+                  <p>
+                    <b> Commentaire de : </b> {{ comment.name }}
+                  </p>
+                </ion-text>
+                <ion-text>
+                  <p>
+                    <b> Le : </b> {{ comment.date |date:'dd/MM/yyyy' }} 
+                  </p>
+                </ion-text>
+                <ion-text>
+                  <p>
+                    <b> Note : </b> {{ comment.score }}/5
+                  </p>
+                </ion-text>
+                <ion-text>
+                  <p>
+                    {{ comment.comment }} 
+                  </p>
+                </ion-text>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="warning" (click)="addComment();">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+    
+    <div *ngIf="movie.comments.length === 0">
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center">
+            Il n'y a pas de commentaire disponible pour ce film.
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col>
             <ion-button expand="full"
                 shape ="round"
-                color="warning"
-                (click)="showTrailer()">
-                Voir la bande-annonce
+                color="warning">
+                Ajouter un avis
             </ion-button>
-            <div class="row">
-              <div class="row">
-                  <b>Sorti en : </b>
-                  <i> {{ movie.date|date:'dd/MM/yyyy' }}</i>
-              </div>
-              <div class="row">
-                  <b>Durée : </b>
-                <i> {{ movie.duration | HeureMinute }}</i>
-              </div>
-            </div>
-            <div class="row">
-                <b>Genre(s) : </b>
-                <span id="genre" *ngFor="let genre of movie.genre">
-                  {{genre}}</span>
-            </div>
-            <p>
-                <b>Synopsis :</b> {{ movie.resume }}
-            </p>
-          </ion-card-content>
-        </ion-card>
-        
-        <ion-card>
-          <ion-card-content>
-            <div class="row">
-                <b>Réalisateur : </b>{{ movie.director }}
-            </div>
-            <div class="row">
-                <b>Acteurs : </b>
-                <span id="actor" *ngFor="let actor of movie.actors">
-                  {{actor}}</span>
-            </div>
-          </ion-card-content>
-        </ion-card>
-        <!-- <ion-card>
-          <ion-card-content>
-            <b>Trailer : </b>
-              <iframe width="100%" height="315" [src]="movie.traileryt" frameborder="0" allowfullscreen></iframe>
-              <iframe id="ytplayer" type="text/html"
-              [src]="sanitizer.bypassSecurityTrustResourceUrl(movie.traileryt)"
-              width="100%"
-              height="100%"
-              frameborder="0"
-              allowfullscreen></iframe>
-          </ion-card-content>
-        </ion-card> -->
-      </ion-content>
-      
-      <ion-content *ngIf="info===false">
-        <ion-card *ngIf="movie.comments.length > 0">
-          <ion-card-content>
-            <ion-card-title class="ion-text-center">Commentaires</ion-card-title>
-            
-            <ion-list *ngFor="let comment of movie.comments">
-              <b> Commentaire de : </b> {{ comment.name }} <br />
-              <b> Le : </b> {{ comment.date |date:'dd/MM/yyyy' }} <br />
-              <b> Note : </b> {{ comment.score }}/5 <br />
-              <p>
-                {{ comment.comment }}
-              </p>
-              <br />
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-        <ion-card *ngIf="movie.comments.length === 0">
-          <p>
-            Pas de commentaire pour ce film.
-          </p>
-        </ion-card>
-      </ion-content>
+          </ion-col>
+      </ion-row>
+    </div>
+  </ion-content>
 </ion-app>
